@@ -5,6 +5,7 @@ export default {
   mutations: {
     initSystemInfo(state) {
       let style = {};
+      // #ifdef MP-WEIXIN
       const { statusBarHeight, screenWidth } = uni.getSystemInfoSync();
       const {
         height,// 高
@@ -23,6 +24,25 @@ export default {
         },
       };
       state.style = style;
+      // #endif
+      // #ifdef H5
+      console.log(uni.getSystemInfoSync())
+      const { statusBarHeight, screenWidth } = uni.getSystemInfoSync();
+      const height = '40px';
+      const top = '40px';
+      const padding = '10px';
+      style.ruler = screenWidth / 750; // 比例尺
+      style.navigation = {
+        height: height + top * 2 - statusBarHeight + 5, // 导航高度
+        statusBarHeight, // 状态栏高度
+        info: {
+          height, // 信息高度
+          top, // 信息距顶部高度
+          padding, // 左右 内边距
+        },
+      };
+      state.style = style;
+      // #endif
     },
   },
   actions: {},

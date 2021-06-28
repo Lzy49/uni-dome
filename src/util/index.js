@@ -18,7 +18,7 @@ const install = (Vue) => {
   for (const key in utils) {
     Vue.prototype[key] = utils[key];
   }
-  // $store.initData();
+  $store.initData();
 };
 export default {
   install,
