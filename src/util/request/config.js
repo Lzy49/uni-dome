@@ -1,44 +1,49 @@
-import $http from './index'
-import store from '../store/index'
-export const CHECKAPI = 'code2session' // 获取校验头的Api (如何设置为空则表示不校验)
-export const STATUSTEXT = { // 接口返回值中状态字段
-  php:'status'
-}
-export const STATUS = { // 接口返回值状态值
-  php:{
-    ISOK:0,// 访问成功
-    ISNOTOKEN:999, // token 失效
-  }
-}
-export const HEADER = { // 默认header 参数
-  'content-type': "application/json",
-}
-const BASEURL = { // 接口地址
-  develop:{ // 开发版
-    php:'https://xxx.cn/'  // 
-  },
-  trial:{ // 体验版
-    php:'https://xxx.cn/' , // 
-  },
-  release:{ // 正式版
-    php:'https://xxx.cn/' // 
-  },
-}
-export const getBaseURL = ()=>(BASEURL['trial' || store.getters.system.envVersion]) // 接口地址
-
-export const checkFun = ()=>{ // 凭证校验头 （ 必须返回一个 Promise）
-  // http
-  return new Promise(async (resolve, reject) => {
+import {checkout} from './index'
+/**
+ * @description: 校验凭证 (如果不需要校验凭证则可以将函数设置为 false )
+ * @return {Promise} 返回一个 Promise 成功值返回一个 对象，该对象会拼到 head 中
+ */
+export const checkFun = () => {
+  // 例：使用微信的 code 当作 token
+  return new Promise((resolve) => {
     uni.login({
-      async success(r) {
-        if (r.errMsg === "login:ok") {
-          // 得到 code
-          $http('code2session', { code: r.code }).then(res=>{
-            store.commit('setUserInfo',res)
-            resolve({token:res.token})
-          })
+      success(r) {
+        if (r.errMsg === 'login:ok') {
+          resolve({ token: r.code });
         }
-      }
-    })
-  })
+      },
+    });
+  });
+};
+
+/**
+ * @description: 成功返回值统一处理
+ * @param api {object} 接口调用信息
+ * @param res {object} 接口返回值
+ * @param resolve {function} 成功回调 (Promise) 一般传入正确数据
+ * @param reject  {function} 失败回调 (Promise)
+ * @return {Promise}
+ */
+export const success = (api, res, resolve, reject) => {
+  /* 例 */
+  // 返回值在这里处理
+  res = res.data;
+  // 如果数据不是JSON对象 则转换
+  typeof res === 'string' && (res = JSON.parse(res));
+  if (res.status === 1000) {
+    // 校验失败 重连
+    checkout.has = false;
+    resolve(checkout(data));
+  }
+  // 成功
+  if (res.status === 0) {
+    resolve(res.data);
+  }
+  // 其他错误
+  reject(res);
+  /* 例 end */
+};
+// 接口地址
+export const BASEURL = {
+  'php':'https:www.xxx.xx/'
 }
