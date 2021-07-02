@@ -1,22 +1,23 @@
 import urls from './urls';
 import { deepClone } from '../function/deep';
 import { $showLoading, $hideLoading } from '../libs/popup';
-import { BASEURL , checkFun} from './config';
+import { BASEURL , checkFun , success} from './config';
 
 let header = {}; // 请求头
 /**
  * @description: 提交数据
- * @param apiName {String} 接口 key 
- * @param data {Object} 请求数据
- * @param path {String} 上传文件的 链接
+ * @param {String} apiName 接口 key 
+ * @param {Object} data 请求数据
+ * @param {String} path 上传文件的 链接
  * @return {Promise}
  */
-const http = (apiName, data, path) => {
+const http = (apiName, data = {}, path = '') => {
   let api = deepClone(urls[apiName]);
   api.data = data;
   // 如果有 path 则要给数据中拼上 path
   api.filePath = path;
   // 有些接口不需要显示 loading
+  api.url = BASEURL[api.from] + api.url
   if (!api.noCover) $showLoading();
   // 有些接口不需要校验token
   return api.noCheck || typeof checkFun !== 'function' ? adaptive(api) : checkout(api);
@@ -24,7 +25,7 @@ const http = (apiName, data, path) => {
 
 /**
  * @description: 请求前检查
- * @param api {Object} 拼接的请求数据
+ * @param {Object} api  拼接的请求数据
  * @return {Promise}
  */
 export const checkout = function(api) {
@@ -43,7 +44,7 @@ export const checkout = function(api) {
       checkout.get = false;
     });
   }
-  return Promise.race([checkout.getPromise]).then(() => adaptive(data));
+  return Promise.race([checkout.getPromise]).then(() => adaptive(api));
 };
 checkout.has = false; // token 已请求到
 checkout.get = false; // 在 请求 token 状态中
@@ -51,18 +52,18 @@ checkout.getPromise = undefined; // 请求 token 的方法
 
 /** 
  * @description: 配置 url 和 header
- * @param api {Object} 拼接的请求数据
+ * @param {Object} api  拼接的请求数据
  * @return {Promise}
  */
 const adaptive = (api) => {
   api.header = header;
-  api.url = BASEURL[api.from] + api.url + '?v=' + new Date().getTime(); 
+  api.url += '?v=' + new Date().getTime(); 
   return request(api);
 };
 
 /** 
  * @description: 发送请求处理请求后的返回值
- * @param api {Object} 拼接的请求数据
+ * @param {Object} api  拼接的请求数据
  * @return {Promise}
  */
 const request = function(api) {
@@ -79,7 +80,8 @@ const request = function(api) {
     };
     // 判断 是那种上传模式
     if (api.isUpFile) {
-      // 上传接口
+      console.log('执行了吧亲')
+      // 上传接口  
       uni.uploadFile({
         ...api,
         name: 'image',

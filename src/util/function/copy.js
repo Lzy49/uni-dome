@@ -1,6 +1,6 @@
 /**
  * @description: 要拷贝的内容
- * @param text {string} 拷贝呢哦容
+ * @param {string} text  拷贝呢哦容
  * @return {Promise} 
  */
 export default (text = '')=>{

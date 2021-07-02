@@ -1,6 +1,6 @@
 /**
  * @description: 获取 目标对象自身的属性键组成的数组
- * @param obj {object} 目标对象
+ * @param {object} obj  目标对象
  * @return {Array} keys
  */
 const ownKeys = (o) => {
@@ -12,7 +12,7 @@ const ownKeys = (o) => {
 
 /**
  * @description: 深拷贝对象
- * @param obj {object} 目标对象
+ * @param {object} obj  目标对象
  * @return {object} 拷贝后的对象
  */
 export const deepClone = (obj) => {
@@ -29,8 +29,8 @@ export const deepClone = (obj) => {
 
 /**
  * @description: 深合并对象
- * @param target {object} 要合并的对象
- * @param source {object} 要合并的对象
+ * @param {object} target  要合并的对象
+ * @param {object} source  要合并的对象
  * @return {object} 合并后的对象
  */
 export const deepMerge = (target, source) => {
@@ -54,7 +54,7 @@ export const deepMerge = (target, source) => {
 
 /**
  * @description: 深合并多个对象
- * @param targets 多个对象
+ * @param {Array} targets 多个对象接收多个 Object
  * @return {object} 合并后的对象
  */
 export const deepMerges = (...targets) =>

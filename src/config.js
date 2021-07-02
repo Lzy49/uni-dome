@@ -14,5 +14,20 @@ export const tabBar = [
 ];
 export const tabBarLink = tabBar.map(({ link }) => link);
 export const homeLink = 'pages/index/index';
-export const IMGURL =
-  'https://saas-mini.oss-cn-shanghai.aliyuncs.com/Loreal_bonus/min-app/img/';
+export const IMGURL = ''; // 图片地址通配符
+export const SHARE = {
+  title: '分享标题',
+  path: '/pages/index/index',
+  imageUrl: '图片url',
+  success(res) {
+    uni.showToast({
+      title: '分享成功',
+    });
+  },
+  fail(res) {
+    uni.showToast({
+      title: '分享失败',
+      icon: 'none',
+    });
+  },
+};

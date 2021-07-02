@@ -2,7 +2,7 @@
 let loads = 0;
 /**
  * @description: 显示loading
- * @param title {String} loading 显示文字
+ * @param {String} title  loading 显示文字
  */
 export const $showLoading = (title = '加载中', time, config) => {
   loads++;
@@ -15,7 +15,7 @@ export const $showLoading = (title = '加载中', time, config) => {
 
 /**
  * @description: 隐藏loading
- * @param enforce {Boolean} 是否强制关闭loading
+ * @param {Boolean} enforce  是否强制关闭loading
  */
 export const $hideLoading = (enforce = false) => {
   loads = enforce ? 0 : loads - 1;
@@ -27,11 +27,11 @@ let toastTimeout = undefined;
 let toastCloseFun = undefined;
 /**
  * @description: 提示框
- * @param title {String} 提示内容
- * @param duration {String} 展示时间
- * @param icon {String} 展示图标或图片
- * @param config {Object} 其他配置 所有配置 https://uniapp.dcloud.io/api/ui/prompt?id=showToast
- * @return result {Promise} resolve 展示成功，并关闭。reject 表示失败
+ * @param {String} title 提示内容
+ * @param {String} duration 展示时间
+ * @param {String} icon 展示图标或图片
+ * @param {Object} config 其他配置 所有配置 https://uniapp.dcloud.io/api/ui/prompt?id=showToast
+ * @return {Promise}  resolve 展示成功，并关闭。reject 表示失败
  */
 export const $showToast = (title, duration = 1000, icon = 'none', config) => {
   let image = undefined;
@@ -60,7 +60,7 @@ export const $showToast = (title, duration = 1000, icon = 'none', config) => {
 };
 /**
  * @description: 隐藏提示框
- * @param can {Boolean} 是否执行弹窗后续操作
+ * @param {Boolean} can 是否执行弹窗后续操作
  */
 export const $hideToast = (can = true) => {
   uni.hideToast();
@@ -70,8 +70,8 @@ export const $hideToast = (can = true) => {
 
 /**
  * @description: 对话框
- * @param config {Object} 所有配置 https://uniapp.dcloud.io/api/ui/prompt?id=showmodal
- * @return result {Promise} resolve 表示确定，reject 表示失败
+ * @param {Object} config 所有配置 https://uniapp.dcloud.io/api/ui/prompt?id=showmodal
+ * @return {Promise} resolve 表示确定，reject 表示失败
  */
 export const $showModal = (config) => {
   return new Promise((resolve, reject) => {
@@ -89,28 +89,28 @@ export const $showModal = (config) => {
 };
 /**
  * @description: alert对话框
- * @param title {String} 提示标题
- * @param content {String} 提示内容
- * @param config {Object} 所有配置 https://uniapp.dcloud.io/api/ui/prompt?id=showmodal
- * @return result {Promise} resolve 表示确定，reject 表示失败
+ * @param {String} title 提示标题
+ * @param {String} content 提示内容
+ * @param {Object} config 所有配置 https://uniapp.dcloud.io/api/ui/prompt?id=showmodal
+ * @return {Promise} resolve 表示确定，reject 表示失败
  */
 export const $alert = (title, content = '', config) =>
   $showModal({ title, content, showCancel: false, ...config });
 /**
  * @description: confirm 对话框
- * @param title {String} 提示标题
- * @param content {String} 提示内容
- * @param config {Object} 所有配置 https://uniapp.dcloud.io/api/ui/prompt?id=showmodal
- * @return result {Promise} resolve 表示确定，reject 表示失败
+ * @param {String} title 提示标题
+ * @param {String} content 提示内容
+ * @param {Object} config 所有配置 https://uniapp.dcloud.io/api/ui/prompt?id=showmodal
+ * @return {Promise} resolve 表示确定，reject 表示失败
  */
 export const $confirm = (title, content = '', config) =>
   $showModal({ title, content, ...config });
 
 /**
  * @description: 从底部向上弹出操作菜单
- * @param itemList	{Array} 按钮的文字数组
- * @param itemColor	{String} 按钮的文字颜色，默认为"#000000"
- * @return result {Promise} resolve 表示调用成功 返回 tapIndex 表示选择的数组index，reject 表示失败
+ * @param {Array} itemList 按钮的文字数组
+ * @param {String} itemColor	按钮的文字颜色，默认为"#000000"
+ * @return {Promise} resolve 表示调用成功 返回 tapIndex 表示选择的数组index，reject 表示失败
  */
 export const $showActionSheet = (itemList, itemColor) => {
   return new Promise((resolve, reject) => {
