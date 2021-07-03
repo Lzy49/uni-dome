@@ -1,9 +1,7 @@
 import {SHARE as share} from '@/config'
 export default {
   data() {
-    return {
-      IMGURL,
-    };
+    return {};
   },
   onShareAppMessage(res) {
     if (this.myShareAppMessage) {
