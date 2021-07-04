@@ -1,3 +1,5 @@
+import { alert} from '../../../libs/popup';
+import { getSetting, authorize } from '../setting';
 /**
  * @description 上传图片
  * @param {Boolean} compress 是否进行2次压缩
@@ -114,3 +116,40 @@ const getImageInfo = (src) =>
       },
     });
   });
+
+/**
+ * @description 下载图片
+ * @param {String} filePath 图片路径
+ * @returns {Promise}
+ */
+export const saveImage = async (filePath) => {
+  if(!filePath){
+    console.error('请输入图片路径')
+  }
+  const canSave = await getSetting('scope.writePhotosAlbum');
+  if (canSave) {
+    return new Promise((resolve, reject) => {
+      wx.saveImageToPhotosAlbum({
+        filePath,
+        success(res) {
+          resolve(res);
+        },
+        fail({ errMsg }) {
+          if (
+            errMsg === 'saveImageToPhotosAlbum:fail file not found' ||
+            errMsg ===
+              'saveImageToPhotosAlbum:fail The "path" argument must be of type string. Received type object'
+          )
+            alert('提示', '下载失败,文件不存在');
+          reject(errMsg);
+        },
+      });
+    });
+  }
+  authorize('scope.writePhotosAlbum').then((res) => {
+    console.log(res)
+    saveImage();
+  }).catch(()=>{
+    alert('提示', '您未开启权限');
+  })
+};

@@ -14,7 +14,7 @@ export const tabBar = [
 ];
 export const tabBarLink = tabBar.map(({ link }) => link);
 export const homeLink = 'pages/index/index';
-export const IMGURL = ''; // 图片地址通配符
+export const IMGURL = 'www.picture.com/'; // 图片地址通配符
 export const SHARE = {
   title: '分享标题',
   path: '/pages/index/index',

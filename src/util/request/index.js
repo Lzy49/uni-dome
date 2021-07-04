@@ -1,6 +1,6 @@
 import urls from './urls';
 import { deepClone } from '../function/deep';
-import { $showLoading, $hideLoading } from '../libs/popup';
+import { showLoading, hideLoading } from '../libs/popup';
 import { BASEURL , checkFun , success} from './config';
 
 let header = {}; // 请求头
@@ -18,7 +18,7 @@ const http = (apiName, data = {}, path = '') => {
   api.filePath = path;
   // 有些接口不需要显示 loading
   api.url = BASEURL[api.from] + api.url
-  if (!api.noCover) $showLoading();
+  if (!api.noCover) showLoading();
   // 有些接口不需要校验token
   return api.noCheck || typeof checkFun !== 'function' ? adaptive(api) : checkout(api);
 };
@@ -72,11 +72,11 @@ const request = function(api) {
       // 传递给 配置的成功返回
       success(api, res, resolve, reject);
       // 隐藏 loading 窗
-      !api.noCover && $hideLoading();
+      !api.noCover && hideLoading();
     };
     api.fail = (res) => {
       reject(res);
-      !api.noCover && $hideLoading();
+      !api.noCover && hideLoading();
     };
     // 判断 是那种上传模式
     if (api.isUpFile) {
