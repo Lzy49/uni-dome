@@ -9,8 +9,4 @@ export default {
     }
     return share;
   },
-  onShareTimeline() {
-		return this.$u.mpShare
-	}
-  
 };

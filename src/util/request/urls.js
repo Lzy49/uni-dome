@@ -13,9 +13,22 @@ const URLS = {
   code2session: {
     url: 'api/get_session_key',
     method: 'POST',
-    from: 'py',
+    from: 'php',
     noCheck: true,
     noCover: true,
   },
+  todayTask: {
+    // 授权获取用户信息
+    url: 'api/today_task',
+    method: 'POST',
+    from: 'php',
+  },
+  upload: {
+    // 授权获取用户信息
+    url: 'api/upload',
+    method: 'POST',
+    from: 'php',
+    isUpFile:true
+  }
 };
 export default URLS;

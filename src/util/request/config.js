@@ -1,4 +1,4 @@
-import {checkout} from './index'
+import { checkout, default as http } from './index';
 /**
  * @description: 校验凭证 (如果不需要校验凭证则可以将函数设置为 false )
  * @return {Promise} 返回一个 Promise 成功值返回一个 对象，该对象会拼到 head 中
@@ -9,31 +9,33 @@ export const checkFun = () => {
     uni.login({
       success(r) {
         if (r.errMsg === 'login:ok') {
-          resolve({ token: r.code });
+          http('code2session', { code: r.code }).then((res) => {
+            resolve({ token: res.token });
+          });
         }
-      },
+      }
     });
   });
 };
 
 /**
  * @description: 成功返回值统一处理
- * @param api {object} 接口调用信息
- * @param res {object} 接口返回值
- * @param resolve {function} 成功回调 (Promise) 一般传入正确数据
- * @param reject  {function} 失败回调 (Promise)
+ * @param {object} api 接口调用信息
+ * @param {object} res 接口返回值
+ * @param {function} resolve 成功回调 (Promise) 一般传入正确数据
+ * @param {function} reject 失败回调 (Promise)
+ * @param {function} notoken token 失效 执行。
  * @return {Promise}
  */
-export const success = (api, res, resolve, reject) => {
+export const success = (api, res, resolve, reject, notoken) => {
   /* 例 */
   // 返回值在这里处理
   res = res.data;
   // 如果数据不是JSON对象 则转换
   typeof res === 'string' && (res = JSON.parse(res));
-  if (res.status === 1000) {
+  if (res.status === 999) {
+    notoken();
     // 校验失败 重连
-    checkout.has = false;
-    resolve(checkout(data));
   }
   // 成功
   if (res.status === 0) {
@@ -45,5 +47,5 @@ export const success = (api, res, resolve, reject) => {
 };
 // 接口地址
 export const BASEURL = {
-  'php':'https:www.xxx.xx/'
-}
+  php: 'https:www.xxx.xx/'
+};

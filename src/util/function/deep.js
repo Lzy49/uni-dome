@@ -63,5 +63,5 @@ export const deepMerges = (...targets) =>
 export default {
   deepClone,
   deepMerge,
-  deepMerges,
+  deepMerges
 };

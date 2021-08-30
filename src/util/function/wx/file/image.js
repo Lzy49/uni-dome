@@ -1,4 +1,4 @@
-import { alert} from '../../../libs/popup';
+import { alert } from '../../../libs/popup';
 import { getSetting, authorize } from '../setting';
 /**
  * @description 上传图片
@@ -40,7 +40,7 @@ export const chooseImage = (compress = false, getInfo = false, config = {}) =>
       },
       fail: (res) => {
         reject(res);
-      },
+      }
     });
   });
 // 默认配置 https://developers.weixin.qq.com/miniprogram/dev/api/media/image/wx.chooseImage.html
@@ -80,7 +80,7 @@ const compressImage = (src = '', quality = 80) =>
       },
       fail: (res) => {
         reject(res);
-      },
+      }
     });
   });
 
@@ -113,7 +113,7 @@ const getImageInfo = (src) =>
       },
       fail: (res) => {
         reject(res);
-      },
+      }
     });
   });
 
@@ -123,8 +123,8 @@ const getImageInfo = (src) =>
  * @returns {Promise}
  */
 export const saveImage = async (filePath) => {
-  if(!filePath){
-    console.error('请输入图片路径')
+  if (!filePath) {
+    console.error('请输入图片路径');
   }
   const canSave = await getSetting('scope.writePhotosAlbum');
   if (canSave) {
@@ -142,14 +142,16 @@ export const saveImage = async (filePath) => {
           )
             alert('提示', '下载失败,文件不存在');
           reject(errMsg);
-        },
+        }
       });
     });
   }
-  authorize('scope.writePhotosAlbum').then((res) => {
-    console.log(res)
-    saveImage();
-  }).catch(()=>{
-    alert('提示', '您未开启权限');
-  })
+  authorize('scope.writePhotosAlbum')
+    .then((res) => {
+      console.log(res);
+      saveImage();
+    })
+    .catch(() => {
+      alert('提示', '您未开启权限');
+    });
 };
